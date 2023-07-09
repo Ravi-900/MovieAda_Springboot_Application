@@ -1,0 +1,108 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #000000;
+  scroll-behavior: smooth;
+}
+
+/* NavBar Section */
+#Navbar {
+  position: relative;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  color: #ffffff;
+  height: 60px;
+  z-index: 100;
+  background: rgba(0, 0, 0, 0.85);
+}
+
+#Navbar .Navbar-Logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#Navbar .Navbar-Logo a {
+  text-decoration: none;
+  color: rgb(215, 210, 208);
+  font-size: 22px;
+  font-weight: 600;
+  letter-spacing: 3.5px;
+}
+
+#Navbar .Navbar-Logo a:hover {
+  color: rgb(255, 255, 255);
+  transform: scale(1.1);
+}
+
+#Navbar .searchBox {
+  display: flex;
+}
+
+#Navbar .searchBox .searchInput {
+  padding: 7px;
+  font: inherit;
+  border: 0;
+  outline: 0;
+  border-radius: 5em;
+  box-sizing: border-box;
+}
+
+#Navbar .searchBox .searchButton {
+  background-color: rgb(128, 128, 128);
+  margin-left: 20px;
+  width: 85px;
+  padding: 5px;
+  font: inherit;
+  border: 0;
+  outline: 0;
+  border-radius: 3em;
+  box-sizing: border-box;
+  cursor: pointer;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+#Navbar .searchBox .searchButton:hover {
+  background-color: #ffffff;
+  color: #000000;
+}
+
+/* Search Now Shelf Start*/
+#Search {
+  display: flex;
+  flex-direction: column;
+}
+
+#Search h2 {
+  color: #f3e6e3;
+}
+
+#Search .wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  min-height: 360px;
+  align-items: center;
+}
+
+#Search .wrapper .item {
+  text-align: center;
+  margin: 8px;
+}
+
+#Search .wrapper .item .movie-tile img {
+  min-width: 240px;
+  height: 310px;
+  margin-right: 1%;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 0.35s all ease-in-out;
+}
+
+#Search .wrapper .item .movie-tile img:hover {
+  transform: scale(1.15);
+}
