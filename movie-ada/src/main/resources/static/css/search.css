@@ -95,8 +95,8 @@ body {
 }
 
 #Search .wrapper .item .movie-tile img {
-  min-width: 240px;
-  height: 310px;
+  min-width: 200px;
+  height: 270px;
   margin-right: 1%;
   border-radius: 10px;
   cursor: pointer;
