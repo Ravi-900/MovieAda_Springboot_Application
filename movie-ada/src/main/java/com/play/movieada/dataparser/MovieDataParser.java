@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.play.movieada.movies.Movie;
-
+import com.play.movieada.movies.Shelfs;
 
 @Service
 public class MovieDataParser {
@@ -20,48 +20,80 @@ public class MovieDataParser {
 
 	public List<Movie> getRelatedContent(String contentType) {
 		String uri = "https://api.themoviedb.org/3/movie/"+contentType+"?api_key=fe9b5fc91811c100d2052381163e3cc3";
-		
+
 		RestTemplate restTemplate = new RestTemplate();
 		String relatedContents = restTemplate.getForObject(uri,String.class);
-		
+
 		return jsonDataParser(relatedContents);
 	}
 	
-	public List<List<Movie>> getAllCategoriesMovies() {
+	public List<Shelfs> getAllCategoriesMovies() {
+		List<Shelfs> shelfsData = new ArrayList<>();
 
-		List<String> relatedMoviesStrings = new ArrayList<>(Arrays.asList("now_playing","popular","top_rated"));
-		List<Integer> genreIds = new ArrayList<>(Arrays.asList(27,12,16,35,80,99,18,10751,14,28,36,10402,9648,10749,878,10770,53,10752,37));
-
-		List<List<Movie>> AllCategoriesMovies = new ArrayList<>();
-		
-		/*
-		 * Collecting data parallely in order render UI fast
-		 */
-		relatedMoviesStrings.parallelStream().forEach((relatedMovies) -> {
-			AllCategoriesMovies.add(getRelatedContent(relatedMovies));
+		Arrays.asList("now_playing","popular","top_rated").parallelStream().forEach((relatedMovies) -> {
+			Shelfs shelf = new Shelfs();
+			switch(relatedMovies) {
+				case "now_playing" :
+					shelf.setShelfId(1);
+					shelf.setShelfTitle("Now Playing");
+				break;
+				case "popular" :
+					shelf.setShelfId(2);
+					shelf.setShelfTitle("Popular");
+				break;
+				case "top_rated" :
+					shelf.setShelfId(3);
+					shelf.setShelfTitle("Top Rated");
+				break;
+			}
+			shelf.setShelfMoviesList(getRelatedContent(relatedMovies));
+			shelfsData.add(shelf);
 	    });
 
-		genreIds.parallelStream().forEach((genre)->{
-			AllCategoriesMovies.add(getMoviesByGenre(genre));
-		});
-		
-		/*
-		 *  removing old way of collecting data
-		 */
-//		for (Integer genre : genreIds) {
-//			List<Movie> movieByGenre = getMoviesByGenre(genre);
-//			AllCategoriesMovies.add(movieByGenre);
-//        }
+		Arrays.asList(27,12,16,35,80,99,18,10751,14,28,36,10402,9648,10749,878,10770,53,10752,37).parallelStream().forEach((genre)->{
+			Shelfs shelf = new Shelfs();
 
-		return AllCategoriesMovies;
+			shelf.setShelfId(genre);
+			shelf.setShelfTitle(getShelfGenreTitle(genre));
+			shelf.setShelfMoviesList(getMoviesByGenre(genre));
+			shelfsData.add(shelf);
+		});
+
+		return shelfsData;
 	}
 	
+	private String getShelfGenreTitle(Integer genre) {
+
+		switch(genre) {
+			case 27: return "Horror";
+			case 12: return "Adventure";
+			case 16: return "Animation";
+			case 35: return "Comedy";
+			case 80: return "Crime";
+			case 99: return "Documentary";
+			case 18: return "Drama";
+			case 10751: return "Family";
+			case 14: return "Fantasy";
+			case 28: return "Action";
+			case 36: return "History";
+			case 10402: return "Music";
+			case 9648: return "Mystery";
+			case 10749: return "Romance";
+			case 878: return "Science Fiction";
+			case 10770: return "TV Movie";
+			case 53: return "Thriller";
+			case 10752: return "War";
+			case 37: return "Western";
+		}
+		return null;
+	}
+
 	public List<Movie> getMoviesByGenre(int genreId){
 		String uri = "https://api.themoviedb.org/3/discover/movie?with_genres="+genreId+"&api_key=fe9b5fc91811c100d2052381163e3cc3";
 		
 		RestTemplate restTemplate = new RestTemplate();
 		String relatedContents = restTemplate.getForObject(uri,String.class);
-		
+
 		return jsonDataParser(relatedContents);
 	}
 	
@@ -73,7 +105,7 @@ public class MovieDataParser {
 			JSONObject jsonRelatedContent = new JSONObject(relatedContents);
 			if(jsonRelatedContent.has("results")) { 
 				JSONArray results = jsonRelatedContent.getJSONArray("results");
-				
+
 				for(int i=0;i<results.length();i++) {
 					JSONObject movieDetails= (JSONObject) results.get(i);
 					

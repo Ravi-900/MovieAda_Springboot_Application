@@ -114,9 +114,9 @@ public class Movie {
 
 	@Override
 	public String toString() {
-		return "Movie [id=" + id + ", title=" + title + ", background=" + background + ", genre=" + genre + ", summary="
+		return "id=" + id + ", title=" + title + ", background=" + background + ", genre=" + genre + ", summary="
 				+ summary + ", poster=" + poster + ", releaseDate=" + releaseDate + ", ratings=" + ratings + ", adult="
-				+ adult + ", videoKey=" + videoKey + "]";
+				+ adult + ", videoKey=" + videoKey;
 	}
 	
 }

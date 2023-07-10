@@ -172,11 +172,11 @@
     </section>
 
     <!-- Categories Section -->
-    <c:forEach var="categoryMovies" items="${MoviesCategory}" varStatus="loop">
+    <c:forEach var="categoryMovies" items="${ShelfData}" varStatus="loop">
       <section id="Movies">
-        <h2>${CategoryTitles[loop.index]}</h2>
+        <h2>${categoryMovies.shelfTitle}</h2>
         <div class="wrapper">
-          <c:forEach var="movie" items="${categoryMovies}">
+          <c:forEach var="movie" items="${categoryMovies.shelfMoviesList}">
             <div class="item">
               <div class="movie-tile">
                 <a name="${movie.title}" href="${movie.id}">

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.view.RedirectView;
 
 import com.play.movieada.dataparser.MovieDataParser;
 import com.play.movieada.movies.Movie;
+import com.play.movieada.movies.Shelfs;
 import com.play.movieada.servcie.CollectMovieData;
 
 @Controller
@@ -35,35 +36,12 @@ public class MovieController {
 		
 		List<Movie> upComingMovies = movieDataParser.getRelatedContent("upcoming");
 		model.addAttribute("WatchNext",upComingMovies);
-		String[] relatedMoviesStrings = {
-				"Now Playing",
-				"Popular",
-				"Top Rated",
-				"Horror",
-				"Adventure",
-				"Animation",
-				"Comedy",
-				"Crime",
-				"Documentary",
-				"Drama",
-				"Family",
-				"Fantasy",
-				"Action",
-				"History",
-				"Music",
-				"Mystery",
-				"Romance",
-				"Science Fiction",
-				"TV Movie",
-				"Thriller",
-				"War",
-				"Western"
-		};
-		model.addAttribute("CategoryTitles",relatedMoviesStrings);
 		
-		List<List<Movie>> movieCategories = movieDataParser.getAllCategoriesMovies();
-		model.addAttribute("MoviesCategory", movieCategories);
-		
+		List<Shelfs> shelfData = movieDataParser.getAllCategoriesMovies();
+		shelfData.sort((shelfData1, shelfData2)-> shelfData1.getShelfId().compareTo(shelfData2.getShelfId()));
+
+		model.addAttribute("ShelfData", shelfData);
+
 		return "movieAda";
 	}
 	
